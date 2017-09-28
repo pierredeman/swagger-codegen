@@ -10,12 +10,9 @@
  * Do not edit the class manually.
  */
 
-
 package com.wordnik.client.model
 
-
-case class ApiResponse (
+case class ApiResponse(
   code: Option[Int],
   _type: Option[String],
-  message: Option[String]
-)
+  message: Option[String])

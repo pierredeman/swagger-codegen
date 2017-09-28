@@ -94,13 +94,13 @@ namespace {{apiPackage}}
             {{#pathParams}}path = path.Replace("{" + "{{baseName}}" + "}", ApiClient.ParameterToString({{{paramName}}}));
             {{/pathParams}}
     
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-            {{#queryParams}} if ({{paramName}} != null) queryParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // query parameter
+            {{#queryParams}} if ({{paramName}} != null) queryParams.AddRange(ApiClient.ParameterToKeyValuePairs("{{#collectionFormat}}{{collectionFormat}}{{/collectionFormat}}", "{{baseName}}", {{paramName}})); // query parameter
             {{/queryParams}}
             {{#headerParams}} if ({{paramName}} != null) headerParams.Add("{{baseName}}", ApiClient.ParameterToString({{paramName}})); // header parameter
             {{/headerParams}}

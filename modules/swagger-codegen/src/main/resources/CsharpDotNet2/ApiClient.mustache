@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -19,7 +20,7 @@ namespace {{clientPackage}}
     public class ApiClient
     {
         private readonly Dictionary<String, String> _defaultHeaderMap = new Dictionary<String, String>();
-  
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ApiClient" /> class.
         /// </summary>
@@ -29,19 +30,19 @@ namespace {{clientPackage}}
             BasePath = basePath;
             RestClient = new RestClient(BasePath);
         }
-    
+
         /// <summary>
         /// Gets or sets the base path.
         /// </summary>
         /// <value>The base path</value>
         public string BasePath { get; set; }
-    
+
         /// <summary>
         /// Gets or sets the RestClient.
         /// </summary>
         /// <value>An instance of the RestClient</value>
         public RestClient RestClient { get; set; }
-    
+
         /// <summary>
         /// Gets the default header.
         /// </summary>
@@ -49,7 +50,7 @@ namespace {{clientPackage}}
         {
             get { return _defaultHeaderMap; }
         }
-    
+
         /// <summary>
         /// Makes the HTTP request (Sync).
         /// </summary>
@@ -62,13 +63,13 @@ namespace {{clientPackage}}
         /// <param name="fileParams">File parameters.</param>
         /// <param name="authSettings">Authentication settings.</param>
         /// <returns>Object</returns>
-        public Object CallApi(String path, RestSharp.Method method, Dictionary<String, String> queryParams, String postBody,
-            Dictionary<String, String> headerParams, Dictionary<String, String> formParams, 
+        public Object CallApi(String path, RestSharp.Method method, List<KeyValuePair<String, String>> queryParams, String postBody,
+            Dictionary<String, String> headerParams, Dictionary<String, String> formParams,
             Dictionary<String, FileParameter> fileParams, String[] authSettings)
         {
 
             var request = new RestRequest(path, method);
-   
+
             UpdateParamsForAuth(queryParams, headerParams, authSettings);
 
             // add default header, if any
@@ -97,7 +98,7 @@ namespace {{clientPackage}}
             return (Object)RestClient.Execute(request);
 
         }
-    
+
         /// <summary>
         /// Add default header.
         /// </summary>
@@ -108,7 +109,7 @@ namespace {{clientPackage}}
         {
             _defaultHeaderMap.Add(key, value);
         }
-    
+
         /// <summary>
         /// Escape string (url-encoded).
         /// </summary>
@@ -118,7 +119,7 @@ namespace {{clientPackage}}
         {
             return RestSharp.Contrib.HttpUtility.UrlEncode(str);
         }
-    
+
         /// <summary>
         /// Create FileParameter based on Stream.
         /// </summary>
@@ -132,7 +133,7 @@ namespace {{clientPackage}}
             else
                 return FileParameter.Create(name, stream.ReadAsBytes(), "no_file_name_provided");
         }
-    
+
         /// <summary>
         /// If parameter is DateTime, output in a formatted string (default ISO 8601), customizable with Configuration.DateTime.
         /// If parameter is a list of string, join the list with ",".
@@ -153,7 +154,41 @@ namespace {{clientPackage}}
             else
                 return Convert.ToString (obj);
         }
-    
+
+        /// <summary>
+        /// Convert params to key/value pairs.
+        /// Use collectionFormat to properly format lists and collections.
+        /// </summary>
+        /// <param name="name">Key name.</param>
+        /// <param name="value">Value object.</param>
+        /// <returns>A list of KeyValuePairs</returns>
+        public IEnumerable<KeyValuePair<string, string>> ParameterToKeyValuePairs(string collectionFormat, string name, object value)
+        {
+            var parameters = new List<KeyValuePair<string, string>>();
+
+            if (IsCollection(value) && collectionFormat == "multi")
+            {
+                var valueCollection = value as IEnumerable;
+                parameters.AddRange(from object item in valueCollection select new KeyValuePair<string, string>(name, ParameterToString(item)));
+            }
+            else
+            {
+                parameters.Add(new KeyValuePair<string, string>(name, ParameterToString(value)));
+            }
+
+            return parameters;
+        }
+
+        /// <summary>
+        /// Check if generic object is a collection.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns>True if object is a collection type</returns>
+        private static bool IsCollection(object value)
+        {
+            return value is IList || value is ICollection;
+        }
+
         /// <summary>
         /// Deserialize the JSON string into a proper object.
         /// </summary>
@@ -194,9 +229,9 @@ namespace {{clientPackage}}
 
             if (type == typeof(String) || type.Name.StartsWith("System.Nullable")) // return primitive type
             {
-                return ConvertType(content, type); 
+                return ConvertType(content, type);
             }
-    
+
             // at this point, it must be a model (json)
             try
             {
@@ -207,7 +242,7 @@ namespace {{clientPackage}}
                 throw new ApiException(500, e.Message);
             }
         }
-    
+
         /// <summary>
         /// Serialize an object into JSON string.
         /// </summary>
@@ -224,7 +259,7 @@ namespace {{clientPackage}}
                 throw new ApiException(500, e.Message);
             }
         }
-    
+
         /// <summary>
         /// Get the API key with prefix.
         /// </summary>
@@ -240,14 +275,14 @@ namespace {{clientPackage}}
             else
                 return apiKeyValue;
         }
-    
+
         /// <summary>
         /// Update parameters based on authentication.
         /// </summary>
         /// <param name="queryParams">Query parameters.</param>
         /// <param name="headerParams">Header parameters.</param>
         /// <param name="authSettings">Authentication settings.</param>
-        public void UpdateParamsForAuth(Dictionary<String, String> queryParams, Dictionary<String, String> headerParams, string[] authSettings)
+        public void UpdateParamsForAuth(List<KeyValuePair<String, String>> queryParams, Dictionary<String, String> headerParams, string[] authSettings)
         {
             if (authSettings == null || authSettings.Length == 0)
                 return;
@@ -259,7 +294,7 @@ namespace {{clientPackage}}
                 {
                     {{#authMethods}}
                     case "{{name}}":
-                        {{#isApiKey}}{{#isKeyInHeader}}headerParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}queryParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}headerParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);{{/isBasic}}
+                        {{#isApiKey}}{{#isKeyInHeader}}headerParams["{{keyParamName}}"] = GetApiKeyWithPrefix("{{keyParamName}}");{{/isKeyInHeader}}{{#isKeyInQuery}}queryParams.Add(new KeyValuePair<String, String>("{{keyParamName}}", GetApiKeyWithPrefix("{{keyParamName}}")));{{/isKeyInQuery}}{{/isApiKey}}{{#isBasic}}headerParams["Authorization"] = "Basic " + Base64Encode(Configuration.Username + ":" + Configuration.Password);{{/isBasic}}
                         {{#isOAuth}}//TODO support oauth{{/isOAuth}}
                         break;
                     {{/authMethods}}
@@ -269,7 +304,7 @@ namespace {{clientPackage}}
                 }
             }
         }
- 
+
         /// <summary>
         /// Encode string in base64 format.
         /// </summary>
@@ -280,7 +315,7 @@ namespace {{clientPackage}}
             var textByte = System.Text.Encoding.UTF8.GetBytes(text);
             return System.Convert.ToBase64String(textByte);
         }
-    
+
         /// <summary>
         /// Dynamically cast the object into target type.
         /// </summary>
@@ -290,6 +325,6 @@ namespace {{clientPackage}}
         public static Object ConvertType(Object fromObject, Type toObject) {
             return Convert.ChangeType(fromObject, toObject);
         }
-  
+
     }
 }

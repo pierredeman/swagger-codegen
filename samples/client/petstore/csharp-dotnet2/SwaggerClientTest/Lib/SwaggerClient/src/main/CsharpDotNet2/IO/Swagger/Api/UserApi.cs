@@ -130,7 +130,7 @@ namespace IO.Swagger.Api
             var path = "/user";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -167,7 +167,7 @@ namespace IO.Swagger.Api
             var path = "/user/createWithArray";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -204,7 +204,7 @@ namespace IO.Swagger.Api
             var path = "/user/createWithList";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -242,7 +242,7 @@ namespace IO.Swagger.Api
             path = path.Replace("{format}", "json");
             path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
     
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -279,7 +279,7 @@ namespace IO.Swagger.Api
             path = path.Replace("{format}", "json");
             path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
     
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -319,14 +319,14 @@ namespace IO.Swagger.Api
             var path = "/user/login";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-             if (username != null) queryParams.Add("username", ApiClient.ParameterToString(username)); // query parameter
- if (password != null) queryParams.Add("password", ApiClient.ParameterToString(password)); // query parameter
+             if (username != null) queryParams.AddRange(ApiClient.ParameterToKeyValuePairs("", "username", username)); // query parameter
+ if (password != null) queryParams.AddRange(ApiClient.ParameterToKeyValuePairs("", "password", password)); // query parameter
                                         
             // authentication setting, if any
             String[] authSettings = new String[] {  };
@@ -353,7 +353,7 @@ namespace IO.Swagger.Api
             var path = "/user/logout";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -394,7 +394,7 @@ namespace IO.Swagger.Api
             path = path.Replace("{format}", "json");
             path = path.Replace("{" + "username" + "}", ApiClient.ParameterToString(username));
     
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();

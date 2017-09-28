@@ -105,7 +105,7 @@ namespace IO.Swagger.Api
             path = path.Replace("{format}", "json");
             path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(orderId));
     
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -137,7 +137,7 @@ namespace IO.Swagger.Api
             var path = "/store/inventory";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -174,7 +174,7 @@ namespace IO.Swagger.Api
             path = path.Replace("{format}", "json");
             path = path.Replace("{" + "orderId" + "}", ApiClient.ParameterToString(orderId));
     
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -210,7 +210,7 @@ namespace IO.Swagger.Api
             var path = "/store/order";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();

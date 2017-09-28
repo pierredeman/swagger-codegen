@@ -134,7 +134,7 @@ namespace IO.Swagger.Api
             var path = "/pet";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -173,7 +173,7 @@ namespace IO.Swagger.Api
             path = path.Replace("{format}", "json");
             path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
     
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -210,13 +210,13 @@ namespace IO.Swagger.Api
             var path = "/pet/findByStatus";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-             if (status != null) queryParams.Add("status", ApiClient.ParameterToString(status)); // query parameter
+             if (status != null) queryParams.AddRange(ApiClient.ParameterToKeyValuePairs("csv", "status", status)); // query parameter
                                         
             // authentication setting, if any
             String[] authSettings = new String[] { "petstore_auth" };
@@ -247,13 +247,13 @@ namespace IO.Swagger.Api
             var path = "/pet/findByTags";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
             String postBody = null;
     
-             if (tags != null) queryParams.Add("tags", ApiClient.ParameterToString(tags)); // query parameter
+             if (tags != null) queryParams.AddRange(ApiClient.ParameterToKeyValuePairs("csv", "tags", tags)); // query parameter
                                         
             // authentication setting, if any
             String[] authSettings = new String[] { "petstore_auth" };
@@ -285,7 +285,7 @@ namespace IO.Swagger.Api
             path = path.Replace("{format}", "json");
             path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
     
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -321,7 +321,7 @@ namespace IO.Swagger.Api
             var path = "/pet";
             path = path.Replace("{format}", "json");
                 
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -361,7 +361,7 @@ namespace IO.Swagger.Api
             path = path.Replace("{format}", "json");
             path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
     
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
@@ -402,7 +402,7 @@ if (status != null) formParams.Add("status", ApiClient.ParameterToString(status)
             path = path.Replace("{format}", "json");
             path = path.Replace("{" + "petId" + "}", ApiClient.ParameterToString(petId));
     
-            var queryParams = new Dictionary<String, String>();
+            var queryParams = new List<KeyValuePair<String, String>>();
             var headerParams = new Dictionary<String, String>();
             var formParams = new Dictionary<String, String>();
             var fileParams = new Dictionary<String, FileParameter>();
